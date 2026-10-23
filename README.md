@@ -1,40 +1,120 @@
-# Google Maps Business Lead 
+# Business Lead Scraper
 
-A lightweight, two-stage Python tool designed to find local business leads. It searches Google Maps for targeted businesses, extracts contact details (Name, Address, Phone Number, Website), and automatically crawls discovered websites to harvest email addresses.
+Find local businesses on Google Maps and collect their **name, address, phone, website, social media links and email** in a simple web interface. Filter the results live and export them to CSV.
 
----
+No coding needed to use it: you open a page in your browser, type what you are looking for, and click **Start**.
 
 ## Features
-- **Custom Business Scraping**: Scrape Google Maps by category, business type, or city.
-- **Complete Details Extraction**: Captures Business Name, Address, Phone Number, and Official Website URL.
-- **Smart Parsing**: Extracts standard `mailto:` links and obfuscated email formats (`name [at] domain [dot] com`).
-- **Data Enrichment**: Preserves original business data while appending discovered email addresses cleanly to CSV files.
 
----
+- Search by **category + areas** (e.g. "cafe" in Centrs, Teika, Imanta...) to go beyond Google's ~120 results per search
+- Collects name, address, phone, website and Google Maps link
+- Finds **Facebook, Instagram, TikTok, LinkedIn, YouTube and X/Twitter** links and a contact **email** from each business website
+- Live progress bar and log, with a Stop button
+- Many filters: name, excluded names, address, area, phone (any / none / mobile), website (none / own / social-only), chains vs unique, social platform, email
+- **Export the filtered list to CSV**, or copy all phones, websites or emails
+- Results are autosaved to `leads_latest.csv`
+- Runs in the background (headless) or with a visible browser
 
-## Repository Structure
+## What you need
 
-- `business_scraper.py`: Extracts business listings (Name, Address, Phone, Website) from Google Maps using Selenium.
-- `requirements.txt`: Project dependencies.
-- `.gitignore`: Files ignored by Git (caches, virtual environments, CSV outputs).
+- **Windows, macOS or Linux**
+- **Python 3.9 or newer**: https://www.python.org/downloads/
+  (On Windows, tick **"Add Python to PATH"** during installation.)
+- **Google Chrome** installed
 
----
+## Installation (one time)
 
-## Quick Start Guide
+1. **Download the project.**
+   On this page click the green **Code** button, then **Download ZIP**, and unzip it.
+   (Or with git: `git clone https://github.com/AnmolGupta2282/Lead_Scraper.git`)
 
-### 1. Prerequisites
-Ensure you have **Python 3.8+** and Google Chrome installed.
+2. **Open a terminal in the project folder.**
+   - Windows: open the folder, click the address bar, type `cmd` and press Enter.
+   - macOS/Linux: open Terminal and `cd` into the folder.
 
-### 2. Installation
-Clone this repository and install dependencies:
-```bash
-git clone [https://github.com/AnmolGupta2282/Lead_Scraper.git](https://github.com/AnmolGupta2282/Lead_Scraper.git)
-cd Lead_Scraper
+3. **Install the required packages:**
+   ```
+   pip install -r requirements.txt
+   ```
+   If you see "pip is not recognized", use:
+   ```
+   python -m pip install -r requirements.txt
+   ```
 
-pip install -r requirements.txt
+## Run the app
 
-**How to Use**
+```
+python app.py
+```
 
-Bash 
-python business_scraper.py -q "cafe in Centrs Riga" -o riga_cafes.csv --headless
+Your browser opens at **http://127.0.0.1:5000**. If it does not, open that address yourself. Keep the terminal window open while you use the app. Press `Ctrl + C` in the terminal to close it.
+
+## How to use it
+
+1. **Category**: what you want to find, e.g. `cafe`, `dentist`, `hair salon`.
+2. **Areas**: one per line, e.g.
+   ```
+   Centrs Riga
+   Agenskalns Riga
+   Teika Riga
+   ```
+   Each line becomes a search like "cafe in Centrs Riga".
+3. Choose the options:
+   - **Max results**: `0` means no limit.
+   - **Hide browser (headless)**: run Chrome in the background.
+   - **Find social media & email**: slower, but adds social links and emails.
+4. Click **Start scraping**. Results appear in the table as they are found.
+5. Use the **filters** to narrow the list, then click **Export filtered CSV**.
+
+### Getting 200-300+ results
+
+Google Maps returns about 100-120 businesses for a single search, however long it scrolls. To get more, **add more areas** (neighborhoods, districts, streets). Results from all searches are merged and duplicates are removed.
+
+### Filter ideas
+
+| You want | Use |
+|---|---|
+| Businesses that need a website | Complete leads: *Has phone, NO website* |
+| Businesses with an Instagram page | Social media: *Has Instagram* |
+| Only independent shops | Chains: *Unique names only* |
+| People you can text | Phone: *Mobile only* (Latvian numbers starting with 2) |
+| Skip big brands | Name does NOT contain: `starbucks, narvesen, rimi` |
+
+## Command line version (optional)
+
+Prefer the terminal? Use the original script:
+
+```
+python business_scraper.py -q "cafe in Centrs Riga" "cafe in Teika Riga" -o leads.csv --headless
+```
+
+| Option | Meaning |
+|---|---|
+| `-q` | One or more search queries |
+| `-o` | Output CSV file (default `data.csv`) |
+| `-l` | Max total results (0 = no limit) |
+| `--headless` | Hide the browser window |
+
+## Files
+
+| File | Purpose |
+|---|---|
+| `app.py` | The web interface (run this) |
+| `business_scraper.py` | The Google Maps scraper |
+| `social.py` | Finds social media links and emails on websites |
+| `requirements.txt` | Packages to install |
+
+## Troubleshooting
+
+- **"python is not recognized"**: Python is not installed or was not added to PATH. Reinstall it and tick "Add Python to PATH".
+- **"pip is not recognized"**: use `python -m pip install -r requirements.txt`.
+- **Chrome error / driver error**: make sure Google Chrome is installed and up to date. The driver downloads automatically the first time, so you need an internet connection.
+- **Very few or zero results**: try running with **Hide browser** switched off to see what Google shows (cookie page, CAPTCHA). Check that the query makes sense on Google Maps itself.
+- **A field is empty (phone, address...)**: not every business lists every field. If a field is empty for *all* businesses, Google may have changed its page layout. Please open an issue.
+- **Port already in use**: close other copies of the app, or change `5000` at the bottom of `app.py` to another number.
+- **Fewer social links than expected**: social links are only found for businesses that have a website, and some sites load their links with JavaScript, which this tool cannot read.
+
+## Responsible use
+
+This tool collects publicly visible business information. Automated scraping of Google Maps may be against Google's Terms of Service, and heavy use can lead to CAPTCHAs or temporary blocks. You are responsible for how you use it. Follow local laws on data protection and marketing (such as GDPR and rules on unsolicited emails and calls), and for large or commercial use consider the official [Google Places API](https://developers.google.com/maps/documentation/places/web-service).
 
