@@ -1,0 +1,13 @@
+# Python bytecode & cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environments
+venv/
+.env
+
+# Data outputs & logs
+*.csv
+*.log
+.DS_Store
