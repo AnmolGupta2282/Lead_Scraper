@@ -1,4 +1,4 @@
-# Google Maps Business Lead & Email Scraper
+# Google Maps Business Lead 
 
 A lightweight, two-stage Python tool designed to find local business leads. It searches Google Maps for targeted businesses, extracts contact details (Name, Address, Phone Number, Website), and automatically crawls discovered websites to harvest email addresses.
 
@@ -7,7 +7,6 @@ A lightweight, two-stage Python tool designed to find local business leads. It s
 ## Features
 - **Custom Business Scraping**: Scrape Google Maps by category, business type, or city.
 - **Complete Details Extraction**: Captures Business Name, Address, Phone Number, and Official Website URL.
-- **Deep Email Harvesting**: Crawls target websites and common contact routes (`/contact`, `/about`, `/kontakti`, etc.).
 - **Smart Parsing**: Extracts standard `mailto:` links and obfuscated email formats (`name [at] domain [dot] com`).
 - **Data Enrichment**: Preserves original business data while appending discovered email addresses cleanly to CSV files.
 
@@ -16,7 +15,6 @@ A lightweight, two-stage Python tool designed to find local business leads. It s
 ## Repository Structure
 
 - `business_scraper.py`: Extracts business listings (Name, Address, Phone, Website) from Google Maps using Selenium.
-- `email_scraper.py`: Crawls discovered business websites to extract contact emails.
 - `requirements.txt`: Project dependencies.
 - `.gitignore`: Files ignored by Git (caches, virtual environments, CSV outputs).
 
@@ -34,3 +32,9 @@ git clone [https://github.com/AnmolGupta2282/Lead_Scraper.git](https://github.co
 cd Lead_Scraper
 
 pip install -r requirements.txt
+
+**How to Use**
+
+Bash 
+python business_scraper.py -q "cafe in Centrs Riga" -o riga_cafes.csv --headless
+
