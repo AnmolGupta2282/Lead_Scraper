@@ -49,6 +49,25 @@ python app.py
 
 Your browser opens at **http://127.0.0.1:5000**. If it does not, open that address yourself. Keep the terminal window open while you use the app. Press `Ctrl + C` in the terminal to close it.
 
+Open the app again
+
+The page is not a file you can open directly. It only works while the app is running in the terminal.
+
+If the terminal is still open and running the app, go to this address in your browser:
+**  http://127.0.0.1:5000
+**If you closed the terminal, start the app again:
+Open Command Prompt in the project folder (for example cd Desktop\scraper).
+Run:
+**  python app.py
+The browser opens automatically. If it does not, type http://127.0.0.1:5000 into the address bar.
+
+Restarting the app clears the results shown on the page. Your last run is still saved in leads_latest.csv in the project folder, and anything you exported stays safe.
+
+Windows shortcut: create a file called start.bat in the project folder with these two lines, then double-click it any time to launch the app:
+**
+@echo off
+python app.py**  
+
 ## How to use it
 
 1. **Category**: what you want to find, e.g. `cafe`, `dentist`, `hair salon`.
