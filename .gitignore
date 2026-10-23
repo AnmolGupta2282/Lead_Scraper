@@ -1,13 +1,10 @@
-# Python bytecode & cache
 __pycache__/
 *.pyc
-*.pyo
-
-# Virtual Environments
+.venv/
 venv/
-.env
+.idea/
+.vscode/
 
-# Data outputs & logs
+# scraped data
 *.csv
-*.log
-.DS_Store
+leads_latest.csv
